@@ -1,25 +1,25 @@
+var commands = require('./commands');
 
 // console.log(process);
 //console.log(Object.keys(process));
 
-//Output a prompt
-process.stdout.write('prompt > ');
-
-var actions={
-    "pwd": process.cwd, 
-    "date": function (){return  new Date().toString()}
-}
+process.stdout.write('\n:-) ');
 
 //The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', function (data) {
-  var cmd = data.toString().trim(); // remove the newline
-  
+  var cmdLine = data.toString().trim().split(' '); // remove the newline
+  var cmd = cmdLine[0];
+  var args = cmdLine.slice(1).join(' ');
+
   //process.stdout.write('You typed: ' + cmd);
-  if(actions[cmd]){process.stdout.write(actions[cmd]());}
-
-
-  process.stdout.write('\nprompt > ');
-
+  if(commands[cmd]){
+    commands[cmd](args);
+  } else {
+    if (cmd) {
+      process.stdout.write('\nCOMMAND NOT FOUND!');
+    }
+    process.stdout.write('\n:-) ');
+  }
 });
 process.cwd();
 
