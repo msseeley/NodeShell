@@ -54,7 +54,50 @@ var actions={
       }
       process.stdout.write('\n:-) ');
     })
-  }
+  },
+  "sort": function (arg) {
+    fs.readFile(arg, function(err, data) {
+      if (err) {
+        process.stdout.write('FILE NOT FOUND');
+      } else {
+        var lines = data.toString().split("\n");
+        lines = lines.map(function(txt){return txt.trim();});
+        lines.sort();
+        process.stdout.write(lines.join("\n") + "\n");
+      }
+      process.stdout.write('\n:-) ');
+    })
+  },
+  "wc": function (arg) {
+    fs.readFile(arg, function(err, data) {
+      if (err) {
+        process.stdout.write('FILE NOT FOUND');
+      } else {
+        var lines = data.toString().split("\n");
+        
+        process.stdout.write("" + lines.length);
+      }
+      process.stdout.write('\n:-) ');
+    })
+  },
+  "uniq": function (arg) {
+    fs.readFile(arg, function(err, data) {
+      if (err) {
+        process.stdout.write('FILE NOT FOUND');
+      } else {
+        var lines = data.toString().split("\n");
+        var lastLine;
+        lines.forEach(function(line){
+          if(line!==lastLine){
+            lastLine=line;
+            process.stdout.write("\n" + line);
+          }
+        })
+        
+      }
+      process.stdout.write('\n:-) ');
+    })
+  },
 }
 
 module.exports = actions;
